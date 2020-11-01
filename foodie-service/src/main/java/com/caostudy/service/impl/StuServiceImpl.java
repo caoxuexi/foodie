@@ -1,8 +1,8 @@
 package com.caostudy.service.impl;
 
-import com.caostudy.service.StuService;
 import com.caostudy.mapper.StuMapper;
 import com.caostudy.pojo.Stu;
+import com.caostudy.service.StuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -19,7 +19,6 @@ public class StuServiceImpl implements StuService {
     private StuMapper stuMapper;
 
     @Override
-    @Transactional(propagation = Propagation.SUPPORTS)
     public Stu getStuInfo(int id) {
         return stuMapper.selectByPrimaryKey(id);
     }
@@ -27,7 +26,7 @@ public class StuServiceImpl implements StuService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void saveStu() {
-        Stu stu=new Stu();
+        Stu stu = new Stu();
         stu.setName("cao");
         stu.setAge(18);
         stuMapper.insert(stu);
@@ -37,7 +36,7 @@ public class StuServiceImpl implements StuService {
     @Transactional(propagation = Propagation.REQUIRED)
 
     public void updateStu(int id) {
-        Stu stu=new Stu();
+        Stu stu = new Stu();
         stu.setName("caoqiang");
         stu.setAge(20);
         stu.setId(id);

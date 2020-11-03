@@ -68,4 +68,16 @@ public class UserServiceImpl implements UserService {
         usersMapper.insert(user);
         return user;
     }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Users queryUserForLogin(String username, String password) {
+        Example userExample=new Example(Users.class);
+        Example.Criteria userCriteria=userExample.createCriteria();
+        //这里的第一个参数是和pojo类里的属性名对应的，不是和数据库里字段名对应的
+        userCriteria.andEqualTo("username",username);
+        userCriteria.andEqualTo("password",password);
+        Users result = usersMapper.selectOneByExample(userExample);
+        return result;
+    }
 }

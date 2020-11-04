@@ -73,13 +73,13 @@ public class PassportController {
             return CaoJSONResult.errorMsg("两次密码输入不一致");
         }
         //4.实现注册
-        Users userResult=userService.createUser(userBO);
+        Users userResult = userService.createUser(userBO);
 
         //5.设置Cookie
         setNullProperty(userResult);
 
-        CookieUtils.setCookie(request,response,"user",
-                JsonUtils.objectToJson(userResult),true);
+        CookieUtils.setCookie(request, response, "user",
+                JsonUtils.objectToJson(userResult), true);
 
         return CaoJSONResult.ok();
     }
@@ -106,9 +106,21 @@ public class PassportController {
         }
         setNullProperty(userResult);
 
-        CookieUtils.setCookie(request,response,"user",
-                JsonUtils.objectToJson(userResult),true);
+        CookieUtils.setCookie(request, response, "user",
+                JsonUtils.objectToJson(userResult), true);
         return CaoJSONResult.ok(userResult);
+    }
+
+    @ApiOperation(value = "用户退出登录", notes = "用户退出登录", httpMethod = "POST")
+    @PostMapping("/logout")
+    public CaoJSONResult login(@RequestParam String userId,
+                               HttpServletRequest request,
+                               HttpServletResponse response) {
+        // 清除用户的相关cookie
+        CookieUtils.deleteCookie(request,response,"user");
+        //TODO 用户退出登录需要清空购物车
+        //TODO 分布式会话中需要清楚用户数据
+        return CaoJSONResult.ok();
     }
 
     private void setNullProperty(Users userResult) {

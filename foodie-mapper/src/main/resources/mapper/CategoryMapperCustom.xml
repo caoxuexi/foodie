@@ -45,7 +45,7 @@
         <result column="catImage" property="catImage"/>
         <result column="bgColor" property="bgColor"/>
 
-        <collection property="simpleItemVoList" ofType="com.caostudy.pojo.vo.SimpleItemVO">
+        <collection property="simpleItemList" ofType="com.caostudy.pojo.vo.SimpleItemVO">
             <id column="itemId" property="itemId"/>
             <result column="itemName" property="itemName"/>
             <result column="itemUrl" property="itemUrl"/>

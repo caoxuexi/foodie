@@ -20,5 +20,5 @@ public class NewItemsVO {
     private String bgColor;
 
     // 六个推荐商品的List
-    private List<SimpleItemVO> simpleItemVoList;
+    private List<SimpleItemVO> simpleItemList;
 }

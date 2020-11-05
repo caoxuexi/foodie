@@ -1,6 +1,7 @@
 package com.caostudy.controller;
 
 import com.caostudy.pojo.*;
+import com.caostudy.pojo.vo.CommentLevelCountsVO;
 import com.caostudy.pojo.vo.ItemInfoVO;
 import com.caostudy.service.ItemService;
 import com.caostudy.utils.CaoJSONResult;
@@ -9,10 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -47,5 +45,17 @@ public class ItemsController {
         itemInfoVO.setItemSpecList(itemSpecList);
         itemInfoVO.setItemParams(itemsParams);
         return CaoJSONResult.ok(itemInfoVO);
+    }
+
+    @ApiOperation(value = "查询商品评价的等级", notes = "查询商品评价的等级", httpMethod = "GET")
+    @GetMapping("/commentLevel")
+    public CaoJSONResult commentLevel(
+            @ApiParam(name = "itemId",value = "商品id",required = true)
+            @RequestParam String itemId) {
+        if(StringUtils.isBlank(itemId)){
+            return CaoJSONResult.errorMsg(null);
+        }
+        CommentLevelCountsVO countsVO = itemService.queryCommentCounts(itemId);
+        return CaoJSONResult.ok(countsVO);
     }
 }

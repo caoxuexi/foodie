@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caostudy.mapper.ItemsMapperCostume">
+    <select id="queryItemComments" parameterType="Map" resultType="com.caostudy.pojo.vo.ItemCommentVO">
+        SElECT
+             ic.comment_level as commentLevel,
+             ic.content as content,
+             ic.sepc_name as specName,
+             ic.created_time as created_time,
+            u.face as userFace,
+            u.nickname as nickname
+        From items_comments ic
+        LEFT JOIN
+            users u
+         ON
+            ic.user_id=u.id
+        WHERE
+            ic.item_id=#{paramsMap.itemId}
+            <if test="paramsMap.level!=null and paramsMap.lecel!=''">
+                AND ic.comment_level=#{paramsMap.level}
+            </if>
+  </select>
+</mapper>

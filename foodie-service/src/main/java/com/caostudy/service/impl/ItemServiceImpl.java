@@ -4,6 +4,7 @@ import com.caostudy.enums.CommentLevel;
 import com.caostudy.mapper.*;
 import com.caostudy.pojo.*;
 import com.caostudy.pojo.vo.CommentLevelCountsVO;
+import com.caostudy.pojo.vo.ItemCommentVO;
 import com.caostudy.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 曹学习
@@ -30,6 +33,8 @@ public class ItemServiceImpl implements ItemService {
     private ItemsParamMapper itemsParamMapper;
     @Autowired
     private ItemsCommentsMapper itemsCommentsMapper;
+    @Autowired
+    private ItemsMapperCostume itemsMapperCostume;
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
@@ -88,5 +93,15 @@ public class ItemServiceImpl implements ItemService {
             condition.setCommentLevel(level);
         }
         return itemsCommentsMapper.selectCount(condition);
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public List<ItemCommentVO> queryPagedComments(String itemId, Integer level) {
+        Map<String,Object> map=new HashMap<>();
+        map.put("itemId",itemId);
+        map.put("level",level);
+        List<ItemCommentVO> list = itemsMapperCostume.queryItemComments(map);
+        return list;
     }
 }

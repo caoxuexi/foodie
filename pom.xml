@@ -33,13 +33,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-                        <exclusions>
-                            <!-- 排除spring原有的日志系统 -->
-                            <exclusion>
-                                <groupId>org.springframework.boot</groupId>
-                                <artifactId>spring-boot-starter-logging</artifactId>
-                            </exclusion>
-                        </exclusions>
+            <exclusions>
+                <!-- 排除spring原有的日志系统 -->
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -145,15 +145,11 @@
     </dependencies>
 
 
-
-
-
-
-<!--            &lt;!&ndash; 打包war [3] 添加依赖 &ndash;&gt;-->
-<!--            <dependency>-->
-<!--                <groupId>javax.servlet</groupId>-->
-<!--                <artifactId>javax.servlet-api</artifactId>-->
-<!--                <scope>provided</scope>-->
-<!--            </dependency>-->
+    <!--            &lt;!&ndash; 打包war [3] 添加依赖 &ndash;&gt;-->
+    <!--            <dependency>-->
+    <!--                <groupId>javax.servlet</groupId>-->
+    <!--                <artifactId>javax.servlet-api</artifactId>-->
+    <!--                <scope>provided</scope>-->
+    <!--            </dependency>-->
 
 </project>

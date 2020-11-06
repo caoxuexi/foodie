@@ -6,6 +6,10 @@ import com.caostudy.pojo.*;
 import com.caostudy.pojo.vo.CommentLevelCountsVO;
 import com.caostudy.pojo.vo.ItemCommentVO;
 import com.caostudy.service.ItemService;
+import com.caostudy.utils.DesensitizationUtil;
+import com.caostudy.utils.PagedGridResult;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -97,11 +101,27 @@ public class ItemServiceImpl implements ItemService {
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
-    public List<ItemCommentVO> queryPagedComments(String itemId, Integer level) {
+    public PagedGridResult queryPagedComments(
+            String itemId, Integer level,
+            Integer page, Integer pageSize) {
         Map<String,Object> map=new HashMap<>();
         map.put("itemId",itemId);
         map.put("level",level);
+        PageHelper.startPage(page,pageSize);
         List<ItemCommentVO> list = itemsMapperCostume.queryItemComments(map);
-        return list;
+        for (ItemCommentVO vo:list) {
+            vo.setNickname(DesensitizationUtil.commonDisplay(vo.getNickname()));
+        }
+        return setterPagedGrid(list,page);
+    }
+
+    private PagedGridResult setterPagedGrid(List<?> list,Integer page){
+        PageInfo<?> pageList = new PageInfo<>(list);
+        PagedGridResult grid = new PagedGridResult();
+        grid.setPage(page);
+        grid.setRows(list);
+        grid.setTotal(pageList.getPages());
+        grid.setRecords(pageList.getTotal());
+        return grid;
     }
 }

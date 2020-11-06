@@ -6,7 +6,7 @@
              ic.comment_level as commentLevel,
              ic.content as content,
              ic.sepc_name as specName,
-             ic.created_time as created_time,
+             ic.created_time as createdTime,
             u.face as userFace,
             u.nickname as nickname
         From items_comments ic

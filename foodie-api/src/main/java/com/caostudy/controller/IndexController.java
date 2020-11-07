@@ -59,7 +59,7 @@ public class IndexController {
     @ApiOperation(value = "获取商品子分类", notes = "获取商品子分类", httpMethod = "GET")
     @GetMapping("/subCat/{rootCatId}")
     public CaoJSONResult subCat(
-            @ApiParam(name = "rootCatId",value = "一级分类Id",required = true)
+            @ApiParam(name = "rootCatId",value = "一级分类Id",example = "1",required = true)
             @PathVariable Integer rootCatId) {
         if(rootCatId==null){
             return CaoJSONResult.errorMsg("分类不存在");

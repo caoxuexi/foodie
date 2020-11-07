@@ -115,10 +115,17 @@
         </dependency>
 
         <!-- swagger2 配置 -->
+        <!-- swagger2 配置 -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>2.9.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.swagger</groupId>
+                    <artifactId>swagger-models</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
@@ -129,6 +136,11 @@
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>swagger-bootstrap-ui</artifactId>
             <version>1.9.6</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-models</artifactId>
+            <version>1.5.22</version>
         </dependency>
 
         <!--引入日志依赖 抽象层 与 实现层-->

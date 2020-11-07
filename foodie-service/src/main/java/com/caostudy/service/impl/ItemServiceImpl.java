@@ -5,6 +5,7 @@ import com.caostudy.mapper.*;
 import com.caostudy.pojo.*;
 import com.caostudy.pojo.vo.CommentLevelCountsVO;
 import com.caostudy.pojo.vo.ItemCommentVO;
+import com.caostudy.pojo.vo.SearchItemsVO;
 import com.caostudy.service.ItemService;
 import com.caostudy.utils.DesensitizationUtil;
 import com.caostudy.utils.PagedGridResult;
@@ -38,7 +39,7 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private ItemsCommentsMapper itemsCommentsMapper;
     @Autowired
-    private ItemsMapperCostume itemsMapperCostume;
+    private ItemsMapperCustom itemsMapperCostume;
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
@@ -123,5 +124,28 @@ public class ItemServiceImpl implements ItemService {
         grid.setTotal(pageList.getPages());
         grid.setRecords(pageList.getTotal());
         return grid;
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public PagedGridResult searchItems(String keywords, String sort, Integer page, Integer pageSize) {
+        Map<String,Object> map=new HashMap<>();
+        map.put("keywords",keywords);
+        map.put("sort",sort);
+        PageHelper.startPage(page,pageSize);
+        List<SearchItemsVO> list = itemsMapperCostume.searchItems(map);
+        return setterPagedGrid(list,page);
+    }
+
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public PagedGridResult searchItems(Integer catId, String sort, Integer page, Integer pageSize) {
+        Map<String,Object> map=new HashMap<>();
+        map.put("catId",catId);
+        map.put("sort",sort);
+        PageHelper.startPage(page,pageSize);
+        List<SearchItemsVO> list = itemsMapperCostume.searchItemsByThirdCat(map);
+        return setterPagedGrid(list,page);
     }
 }

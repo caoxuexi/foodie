@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class ItemsController extends BaseController {
     @ApiOperation(value = "查询商品详情", notes = "查询商品详情", httpMethod = "GET")
     @GetMapping("/info/{itemId}")
     public CaoJSONResult info(
-            @ApiParam(name = "itemId",value = "商品id",required = true)
+            @ApiParam(name = "itemId",value = "商品id",example = "1",required = true)
             @PathVariable String itemId) {
         if(StringUtils.isBlank(itemId)){
             return CaoJSONResult.errorMsg(null);
@@ -65,11 +66,11 @@ public class ItemsController extends BaseController {
     public CaoJSONResult comments(
             @ApiParam(name = "itemId",value = "商品id",required = true)
             @RequestParam String itemId,
-            @ApiParam(name = "level",value = "评价等级",required = false)
+            @ApiParam(name = "level",value = "评价等级",example = "1",required = false)
             @RequestParam Integer level,
-            @ApiParam(name = "page",value = "查询下一页的第几页",required = false)
+            @ApiParam(name = "page",value = "查询下一页的第几页",example = "2",required = false)
             @RequestParam Integer page,
-            @ApiParam(name = "pageSize",value = "一页显示的条数",required = false)
+            @ApiParam(name = "pageSize",value = "一页显示的条数",example = "10",required = false)
             @RequestParam Integer pageSize) {
         if(StringUtils.isBlank(itemId)){
             return CaoJSONResult.errorMsg(null);
@@ -82,6 +83,56 @@ public class ItemsController extends BaseController {
         }
         PagedGridResult pagedGridResult = itemService.queryPagedComments(
                 itemId, level, page, pageSize);
+        return CaoJSONResult.ok(pagedGridResult);
+    }
+
+    @ApiOperation(value = "搜索商品列表", notes = "搜索商品列表", httpMethod = "GET")
+    @GetMapping("/search")
+    public CaoJSONResult search(
+            @ApiParam(name = "keywords",value = "搜索关键字",required = true)
+            @RequestParam String keywords,
+            @ApiParam(name = "sort",value = "排序类型",required = false)
+            @RequestParam String sort,
+            @ApiParam(name = "page",value = "查询第几页",example = "2",required = false)
+            @RequestParam Integer page,
+            @ApiParam(name = "pageSize",value = "一页显示的条数",example = "20",required = false)
+            @RequestParam Integer pageSize) {
+        if(StringUtils.isBlank(keywords)){
+            return CaoJSONResult.errorMsg(null);
+        }
+        if(page ==null){
+            page=1;
+        }
+        if(pageSize==null){
+            pageSize=PAGE_SIZE;
+        }
+        PagedGridResult pagedGridResult = itemService.searchItems(
+               keywords, sort, page, pageSize);
+        return CaoJSONResult.ok(pagedGridResult);
+    }
+
+    @ApiOperation(value = "通过分类id搜索商品列表", notes = "通过分类id搜索商品列表", httpMethod = "GET")
+    @GetMapping("/catItems")
+    public CaoJSONResult catItems(
+            @ApiParam(name = "catId",value = "三级分类id",example = "51",required = true)
+            @RequestParam Integer catId,
+            @ApiParam(name = "sort",value = "排序类型",required = false)
+            @RequestParam String sort,
+            @ApiParam(name = "page",value = "查询下一页的第几页",example = "1",required = false)
+            @RequestParam Integer page,
+            @ApiParam(name = "pageSize",value = "一页显示的条数",example = "20",required = false)
+            @RequestParam Integer pageSize) {
+        if(catId==null){
+            return CaoJSONResult.errorMsg(null);
+        }
+        if(page ==null){
+            page=1;
+        }
+        if(pageSize==null){
+            pageSize=PAGE_SIZE;
+        }
+        PagedGridResult pagedGridResult = itemService.searchItems(
+                catId, sort, page, pageSize);
         return CaoJSONResult.ok(pagedGridResult);
     }
 }

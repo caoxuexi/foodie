@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * @author 曹学习
- * @description HelloController
+ * @description IndexController
  * @date 2020/11/1 10:22
  */
 @Api(value = "首页", tags = {"首页展示的相关接口"})

@@ -3,6 +3,7 @@ package com.caostudy.controller;
 import com.caostudy.pojo.*;
 import com.caostudy.pojo.vo.CommentLevelCountsVO;
 import com.caostudy.pojo.vo.ItemInfoVO;
+import com.caostudy.pojo.vo.ShopcartVO;
 import com.caostudy.service.ItemService;
 import com.caostudy.utils.CaoJSONResult;
 import com.caostudy.utils.PagedGridResult;
@@ -14,6 +15,8 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -134,5 +137,36 @@ public class ItemsController extends BaseController {
         PagedGridResult pagedGridResult = itemService.searchItems(
                 catId, sort, page, pageSize);
         return CaoJSONResult.ok(pagedGridResult);
+    }
+
+    //用于用户长时间未登录网址，刷新购物车中的数据(主要是商品价格)
+    @ApiOperation(value = "根据商品规格ids查找最新的商品数据", notes = "根据商品规格ids查找最新的商品数据", httpMethod = "GET")
+    @GetMapping("/refresh")
+    public CaoJSONResult refresh(
+            @ApiParam(name = "itemSpecIds",value = "拼接的规格ids",example = "1001,1003,1005 ",required = true)
+            @RequestParam String itemSpecIds) {
+        if(StringUtils.isBlank(itemSpecIds)){
+            return CaoJSONResult.ok();
+        }
+        List<ShopcartVO> list = itemService.queryItemsBySpecIds(itemSpecIds);
+        return CaoJSONResult.ok(list);
+    }
+
+    //用于用户长时间未登录网址，刷新购物车中的数据(主要是商品价格)
+    @ApiOperation(value = "从购物车中删除商品", notes = "从购物车中删除商品", httpMethod = "POST")
+    @PostMapping("/del")
+    public CaoJSONResult del(
+            @ApiParam(name = "userId",value = "用户id",example = "1908017YR51G1XWH",required = true)
+            @RequestParam String userId,
+            @ApiParam(name = "itemSpecId",value = "商品规格id",example = "bingan-1001-spec-1",required = true)
+            @RequestParam String itemSpecId,
+            HttpServletRequest request,
+            HttpServletResponse response) {
+        if(StringUtils.isBlank(userId)||StringUtils.isBlank(itemSpecId)){
+            return CaoJSONResult.errorMsg("参数不能为空");
+        }
+        //TODO 用户在页面删除购物车中的商品数据，如果此时用户已经登录，则需要同步删除后端购物车中的数据
+
+        return CaoJSONResult.ok();
     }
 }

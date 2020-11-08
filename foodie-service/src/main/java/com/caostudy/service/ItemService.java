@@ -6,6 +6,7 @@ import com.caostudy.pojo.ItemsParam;
 import com.caostudy.pojo.ItemsSpec;
 import com.caostudy.pojo.vo.CommentLevelCountsVO;
 import com.caostudy.pojo.vo.ItemCommentVO;
+import com.caostudy.pojo.vo.ShopcartVO;
 import com.caostudy.utils.PagedGridResult;
 
 import java.util.List;
@@ -70,4 +71,9 @@ public interface ItemService {
     public PagedGridResult searchItems(
             Integer catId,String sort,
             Integer page, Integer pageSize);
+
+    /**
+     * 根据规格ids查询最新的购物车中商品数据
+     */
+    public List<ShopcartVO> queryItemsBySpecIds(String specIds);
 }

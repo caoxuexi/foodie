@@ -30,4 +30,12 @@ public interface AddressService {
      * @param addressBO
      */
     public void updateUserAddress(AddressBO addressBO);
+
+    /**
+     * 根据用户id和地址id，删除对应用户的地址信息
+     * @param userId
+     * @param addressId
+     */
+    public void deleteUserAddress(String userId,String addressId);
+
 }

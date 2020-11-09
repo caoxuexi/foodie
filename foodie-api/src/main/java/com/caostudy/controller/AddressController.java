@@ -53,7 +53,7 @@ public class AddressController {
         return CaoJSONResult.ok();
     }
 
-    @ApiOperation(value = "用户修改地址", notes = "用户新增地址", httpMethod = "POST")
+    @ApiOperation(value = "用户修改地址", notes = "用户修改地址", httpMethod = "POST")
     @PostMapping("/update")
     public CaoJSONResult update(
             @ApiParam(name = "addressBO",value = "地址对象",required = true)
@@ -66,6 +66,20 @@ public class AddressController {
             return checkRes;
         }
         addressService.updateUserAddress(addressBO);
+        return CaoJSONResult.ok();
+    }
+
+    @ApiOperation(value = "用户删除地址", notes = "用户删除地址", httpMethod = "POST")
+    @PostMapping("/delete")
+    public CaoJSONResult delete(
+            @ApiParam(name = "userId",value = "用户id",required = true)
+            @RequestParam String userId,
+            @ApiParam(name = "addressId",value = "地址id",required = true)
+            @RequestParam String addressId) {
+        if(StringUtils.isBlank(userId)||StringUtils.isBlank(addressId)){
+            return CaoJSONResult.errorMsg("错误:addressId和userId不能为空");
+        }
+        addressService.deleteUserAddress(userId, addressId);
         return CaoJSONResult.ok();
     }
 

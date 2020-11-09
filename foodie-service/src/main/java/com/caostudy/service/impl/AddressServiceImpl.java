@@ -55,4 +55,15 @@ public class AddressServiceImpl implements AddressService {
         userAddress.setUpdatedTime(new Date());
         userAddressMapper.insert(userAddress);
     }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void updateUserAddress(AddressBO addressBO) {
+        String addressId=addressBO.getAddressId();
+        UserAddress pendingAddress=new UserAddress();
+        BeanUtils.copyProperties(addressBO,pendingAddress);
+        pendingAddress.setId(addressId);
+        pendingAddress.setUpdatedTime(new Date());
+        userAddressMapper.updateByPrimaryKeySelective(pendingAddress);
+    }
 }

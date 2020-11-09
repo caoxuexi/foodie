@@ -53,6 +53,22 @@ public class AddressController {
         return CaoJSONResult.ok();
     }
 
+    @ApiOperation(value = "用户修改地址", notes = "用户新增地址", httpMethod = "POST")
+    @PostMapping("/update")
+    public CaoJSONResult update(
+            @ApiParam(name = "addressBO",value = "地址对象",required = true)
+            @RequestBody AddressBO addressBO) {
+        if(StringUtils.isBlank(addressBO.getAddressId())){
+            return CaoJSONResult.errorMsg("错误:addressId不能为空");
+        }
+        CaoJSONResult checkRes=checkAddress(addressBO);
+        if(checkRes.getStatus()!=200){
+            return checkRes;
+        }
+        addressService.updateUserAddress(addressBO);
+        return CaoJSONResult.ok();
+    }
+
     //验证参数是否合法
     private CaoJSONResult checkAddress(AddressBO addressBO) {
         String receiver = addressBO.getReceiver();

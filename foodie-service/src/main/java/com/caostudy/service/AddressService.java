@@ -20,8 +20,14 @@ public interface AddressService {
     public List<UserAddress> queryAll(String userId);
 
     /**
-     * 新增收获地址
+     * 新增收货地址
      * @param addressBO
      */
     public void addNewUserAddress(AddressBO addressBO);
+
+    /**
+     * 修改收货地址
+     * @param addressBO
+     */
+    public void updateUserAddress(AddressBO addressBO);
 }

@@ -41,7 +41,7 @@ public class AddressServiceImpl implements AddressService {
         //1. 判断当前用户是否存在地址，如果没有，则新增为默认地址
         Integer isDefault=0;
         List<UserAddress> addressList = this.queryAll(addressBO.getUserId());
-        if(addressList ==null || addressList.isEmpty() ||addressList.size()==0 ){
+        if(addressList ==null || addressList.isEmpty() || addressList.size()==0 ){
             isDefault=1;
         }
 

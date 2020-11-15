@@ -5,7 +5,6 @@ import com.caostudy.pojo.ItemsImg;
 import com.caostudy.pojo.ItemsParam;
 import com.caostudy.pojo.ItemsSpec;
 import com.caostudy.pojo.vo.CommentLevelCountsVO;
-import com.caostudy.pojo.vo.ItemCommentVO;
 import com.caostudy.pojo.vo.ShopcartVO;
 import com.caostudy.utils.PagedGridResult;
 
@@ -76,4 +75,18 @@ public interface ItemService {
      * 根据规格ids查询最新的购物车中商品数据
      */
     public List<ShopcartVO> queryItemsBySpecIds(String specIds);
+
+    /**
+     * 根据商品规格id获取规格对象的具体信息
+     * @param specId
+     * @return
+     */
+    public ItemsSpec queryItemSpecById(String specId);
+
+    /**
+     * 根据商品id获得商品图片主图url
+     * @param itemId
+     * @return
+     */
+    public String queryItemMainImgById(String itemId);
 }

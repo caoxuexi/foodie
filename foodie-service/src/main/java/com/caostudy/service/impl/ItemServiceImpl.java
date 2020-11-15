@@ -1,6 +1,7 @@
 package com.caostudy.service.impl;
 
 import com.caostudy.enums.CommentLevel;
+import com.caostudy.enums.YesOrNo;
 import com.caostudy.mapper.*;
 import com.caostudy.pojo.*;
 import com.caostudy.pojo.vo.CommentLevelCountsVO;
@@ -155,5 +156,21 @@ public class ItemServiceImpl implements ItemService {
         List<String> specIdsList=new ArrayList<>();
         Collections.addAll(specIdsList,ids);
         return itemsMapperCostume.queryItemsBySpecIds(specIdsList);
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public ItemsSpec queryItemSpecById(String specId) {
+        return itemsSpecMapper.selectByPrimaryKey(specId);
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public String queryItemMainImgById(String itemId) {
+        ItemsImg itemsImg=new ItemsImg();
+        itemsImg.setItemId(itemId);
+        itemsImg.setIsMain(YesOrNo.YES.type);
+        ItemsImg result = itemsImgMapper.selectOne(itemsImg);
+        return result!=null? result.getUrl() : "";
     }
 }

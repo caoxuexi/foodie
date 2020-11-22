@@ -102,6 +102,7 @@ public class OrderServiceImpl implements OrderService {
             orderItemsMapper.insert(subOrderItem);
 
             //2.4 在用户提交订单之后，要扣去库存
+            itemService.decreaseItemSpecStock(itemSpecId,buyCounts);
         }
         newOrder.setTotalAmount(totalAmount);
         newOrder.setRealPayAmount(realPayAmount);

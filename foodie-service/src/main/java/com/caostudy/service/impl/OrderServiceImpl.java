@@ -98,6 +98,7 @@ public class OrderServiceImpl implements OrderService {
             subOrderItem.setItemImg(imgUrl);
             subOrderItem.setBuyCounts(buyCounts);
             subOrderItem.setItemSpecId(itemSpecId);
+            subOrderItem.setItemSpecName(itemSpec.getName());
             subOrderItem.setPrice(itemSpec.getPriceDiscount());
             orderItemsMapper.insert(subOrderItem);
 

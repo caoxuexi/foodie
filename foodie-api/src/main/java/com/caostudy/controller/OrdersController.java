@@ -1,14 +1,15 @@
 package com.caostudy.controller;
 
+import com.caostudy.enums.OrderStatusEnum;
 import com.caostudy.enums.PayMethod;
 import com.caostudy.pojo.bo.SubmitOrderBO;
 import com.caostudy.service.OrderService;
 import com.caostudy.utils.CaoJSONResult;
-import com.caostudy.utils.CookieUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,8 +53,14 @@ public class OrdersController extends  BaseController {
          * 4004
          */
         // TODO 整合redis之后，完善购物车中的已结算商品清除，并且同步到前端的cookie
-        CookieUtils.setCookie(request,response,FOODIE_SHOPCART,"",true);
+//        CookieUtils.setCookie(request,response,FOODIE_SHOPCART,"",true);
         //3.向支付中心发送当前订单，用于保存支付中心的订单数据
         return CaoJSONResult.ok(orderId);
+    }
+
+    @PostMapping("notifyMerchantOrderPaid")
+    public Integer notifyMerchantOrderPaid(String merchantOrderId){
+        orderService.updateOrderStatus(merchantOrderId, OrderStatusEnum.WAIT_DELIVER.type);
+        return HttpStatus.OK.value();
     }
 }

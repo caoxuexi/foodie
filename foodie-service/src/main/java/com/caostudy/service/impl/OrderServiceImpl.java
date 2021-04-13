@@ -7,6 +7,8 @@ import com.caostudy.mapper.OrderStatusMapper;
 import com.caostudy.mapper.OrdersMapper;
 import com.caostudy.pojo.*;
 import com.caostudy.pojo.bo.SubmitOrderBO;
+import com.caostudy.pojo.vo.MerchantOrdersVO;
+import com.caostudy.pojo.vo.OrderVO;
 import com.caostudy.service.AddressService;
 import com.caostudy.service.ItemService;
 import com.caostudy.service.OrderService;
@@ -45,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public String createOrder(SubmitOrderBO submitOrderBO) {
+    public OrderVO createOrder(SubmitOrderBO submitOrderBO) {
         String userId = submitOrderBO.getUserId();
         String addressId = submitOrderBO.getAddressId();
         String itemSpecIds = submitOrderBO.getItemSpecIds();
@@ -114,7 +116,19 @@ public class OrderServiceImpl implements OrderService {
         waitPayOrderStatus.setOrderStatus(OrderStatusEnum.WAIT_PAY.type);
         waitPayOrderStatus.setCreatedTime(new Date());
         orderStatusMapper.insert(waitPayOrderStatus);
-        return orderId;
+
+        //4.构建用户订单，传递给支付中心
+        MerchantOrdersVO merchantOrdersVO=new MerchantOrdersVO();
+        merchantOrdersVO.setMerchantOrderId(orderId);
+        merchantOrdersVO.setMerchantUserId(userId);
+        merchantOrdersVO.setAmount(realPayAmount+postAmount);
+        merchantOrdersVO.setPayMethod(payMethod);
+
+        //5.构建自定义订单vo
+        OrderVO orderVO=new OrderVO();
+        orderVO.setOrderId(orderId);
+        orderVO.setMerchantOrdersVO(merchantOrdersVO);
+        return orderVO;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)

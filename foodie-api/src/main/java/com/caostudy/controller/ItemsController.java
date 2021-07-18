@@ -1,6 +1,9 @@
 package com.caostudy.controller;
 
-import com.caostudy.pojo.*;
+import com.caostudy.pojo.Items;
+import com.caostudy.pojo.ItemsImg;
+import com.caostudy.pojo.ItemsParam;
+import com.caostudy.pojo.ItemsSpec;
 import com.caostudy.pojo.vo.CommentLevelCountsVO;
 import com.caostudy.pojo.vo.ItemInfoVO;
 import com.caostudy.pojo.vo.ShopcartVO;
@@ -11,7 +14,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,7 +84,7 @@ public class ItemsController extends BaseController {
             page=1;
         }
         if(pageSize==null){
-            pageSize=COMMENT_PAGE_SIZE;
+            pageSize= COMMON_PAGE_SIZE;
         }
         PagedGridResult pagedGridResult = itemService.queryPagedComments(
                 itemId, level, page, pageSize);

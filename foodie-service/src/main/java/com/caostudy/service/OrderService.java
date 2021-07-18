@@ -1,5 +1,6 @@
 package com.caostudy.service;
 
+import com.caostudy.pojo.OrderStatus;
 import com.caostudy.pojo.bo.SubmitOrderBO;
 import com.caostudy.pojo.vo.OrderVO;
 
@@ -21,4 +22,16 @@ public interface OrderService {
      * @param orderStatus 订单状态
      */
     public void updateOrderStatus(String orderId,Integer orderStatus);
+
+    /**
+     * 查询订单状态
+     * @param orderId 订单id
+     * @return 订单状态
+     */
+    public OrderStatus queryOrderStatusInfo(String orderId);
+
+    /**
+     * 关闭超时未支付订单
+     */
+    public void closeOrder();
 }

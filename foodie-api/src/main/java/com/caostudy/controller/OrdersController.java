@@ -2,6 +2,7 @@ package com.caostudy.controller;
 
 import com.caostudy.enums.OrderStatusEnum;
 import com.caostudy.enums.PayMethod;
+import com.caostudy.pojo.OrderStatus;
 import com.caostudy.pojo.bo.SubmitOrderBO;
 import com.caostudy.pojo.vo.MerchantOrdersVO;
 import com.caostudy.pojo.vo.OrderVO;
@@ -91,5 +92,11 @@ public class OrdersController extends BaseController {
     public Integer notifyMerchantOrderPaid(String merchantOrderId) {
         orderService.updateOrderStatus(merchantOrderId, OrderStatusEnum.WAIT_DELIVER.type);
         return HttpStatus.OK.value();
+    }
+
+    @PostMapping("getPaidOrderInfo")
+    public CaoJSONResult getPaidOrderInfo(String orderId) {
+        OrderStatus orderStatus = orderService.queryOrderStatusInfo(orderId);
+        return CaoJSONResult.ok(orderStatus);
     }
 }

@@ -6,7 +6,7 @@ package com.caostudy.enums;
  * @date 2020/11/2 11:00
  */
 public enum YesOrNo {
-    No(0,"否"),
+    NO(0,"否"),
     YES(1,"是");
 
     public final Integer type;

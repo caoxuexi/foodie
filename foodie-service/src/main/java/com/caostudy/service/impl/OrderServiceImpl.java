@@ -71,8 +71,8 @@ public class OrderServiceImpl implements OrderService {
         newOrder.setPostAmount(postAmount);
         newOrder.setPayMethod(payMethod);
         newOrder.setLeftMsg(leftMsg);
-        newOrder.setIsComment(YesOrNo.No.type);
-        newOrder.setIsDelete(YesOrNo.No.type);
+        newOrder.setIsComment(YesOrNo.NO.type);
+        newOrder.setIsDelete(YesOrNo.NO.type);
         newOrder.setCreatedTime(new Date());
         newOrder.setUpdatedTime(new Date());
         //2. 循环根据itemSpecIds保存订单商品信息表

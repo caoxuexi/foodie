@@ -1,5 +1,9 @@
 package com.caostudy.controller;
 
+import com.caostudy.pojo.Orders;
+import com.caostudy.service.center.MyOrdersService;
+import com.caostudy.utils.CaoJSONResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.io.File;
@@ -28,4 +32,18 @@ public class BaseController {
             File.separator + "images" +
             File.separator + "foodie" +
             File.separator + "faces";
+
+    @Autowired
+    public MyOrdersService myOrdersService;
+    /**
+     * 用于验证用户和订单是否有关联关系，避免非法用户调用
+     * @return
+     */
+    public CaoJSONResult checkUserOrder(String userId, String orderId) {
+        Orders order = myOrdersService.queryMyOrder(userId, orderId);
+        if (order == null) {
+            return CaoJSONResult.errorMsg("订单不存在！");
+        }
+        return CaoJSONResult.ok(order);
+    }
 }

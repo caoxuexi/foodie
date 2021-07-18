@@ -86,7 +86,7 @@ public class AddressServiceImpl implements AddressService {
         queryAddress.setIsDefault(YesOrNo.YES.type);
         List<UserAddress> list = userAddressMapper.select(queryAddress);
         for (UserAddress ua:list){
-            ua.setIsDefault(YesOrNo.No.type);
+            ua.setIsDefault(YesOrNo.NO.type);
             userAddressMapper.updateByPrimaryKeySelective(ua);
         }
         //2.根据地址id修改为默认的地址
